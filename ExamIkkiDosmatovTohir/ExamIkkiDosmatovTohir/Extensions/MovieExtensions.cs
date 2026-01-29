@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ExamIkkiDosmatovTohir.Extensions;
 
 
-public static  class MovieDto
+public static  class MovieExtensions
 {
 
     public static int DurationMinutes(this int minut)

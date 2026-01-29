@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExamIkkiDosmatovTohir.Dtos
 {
-    public  class MovieGetDto
+    public  class MovieDto
     {
        
         public string Title { get; set; }

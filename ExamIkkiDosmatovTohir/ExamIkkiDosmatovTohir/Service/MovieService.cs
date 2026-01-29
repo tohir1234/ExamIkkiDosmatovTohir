@@ -10,65 +10,117 @@ namespace ExamIkkiDosmatovTohir.Service
 {
     public class MovieService : IMovieService
     {
-        public List<Movie> Moives;
-        public MovieService()
+        private List<MovieExtensions> movies = new();
+
+        public List<MovieExtensions> GetAllMoviesByDirector(string director)
         {
-            Moives = new List<Movie>();
-        }
-        public List<MovieDto> GetAllMoviesByDirector(string director)
-        {
-            foreach (var movie in Moives)
+            List<MovieExtensions> result = new();
+            foreach (var movie in movies)
             {
                 if (movie.Director == director)
-                    return movie.
-
+                    result.Add(movie);
             }
-          
+            return result;
         }
 
-        public MovieDto GetHighestGrossingMovie()
+        public MovieExtensions GetTopRatedMovie()
         {
-            throw new NotImplementedException();
-        }
-
-        public List<MovieDto> GetMovieReleasedAfterYear(int yeer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<MovieDto> GetMoviesSortedByRating()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<MovieDto> GetMoviesWithunDurationRange(int minMinutes, int maxMinutes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<MovieDto> GetRecentMovies(int years)
-        {
-            throw new NotImplementedException();
-        }
-
-        public MovieDto GetTopRatedMovie()
-        {
-
-            foreach(var movie in Moives)
+            MovieExtensions top = null;
+            foreach (var movie in movies)
             {
-                if ( )
+                if (top == null || movie.Rating > top.Rating)
+                    top = movie;
             }
-        }  
+            return top;
+        }
 
+        public List<MovieExtensions> GetMovieReleasedAfterYear(int year)
+        {
+            List<MovieExtensions> result = new();
+            foreach (var movie in movies)
+            {
+                if (movie.ReleaseDate.Year > year)
+                    result.Add(movie);
+            }
+            return result;
+        }
+
+        public MovieExtensions GetHighestGrossingMovie()
+        {
+            MovieExtensions best = null;
+            foreach (var movie in movies)
+            {
+                if (best == null || movie.BoxOfficeEarnings > best.BoxOfficeEarnings)
+                    best = movie;
+            }
+            return best;
+        }
+
+        public List<MovieExtensions> SearchMoviesByTitle(string keyword)
+        {
+            List<MovieExtensions> result = new();
+            foreach (var movie in movies)
+            {
+                if (movie.Title.Contains(keyword))
+                    result.Add(movie);
+            }
+            return result;
+        }
+
+        public List<MovieExtensions> GetMoviesWithunDurationRange(int min, int max)
+        {
+            List<MovieExtensions> result = new();
+            foreach (var movie in movies)
+            {
+                if (movie.DurationMinutes >= min && movie.DurationMinutes <= max)
+                    result.Add(movie);
+            }
+            return result;
+        }
 
         public long GetTotalBoxOfficeEarningsByDirector(string director)
         {
-            throw new NotImplementedException();
+            long sum = 0;
+            foreach (var movie in movies)
+            {
+                if (movie.Director == director)
+                    sum += movie.BoxOfficeEarnings;
+            }
+            return sum;
         }
 
-        public List<MovieDto> SearchMoviesByTitle(string keyword)
+        public List<MovieExtensions> GetMoviesSortedByRating()
         {
-            throw new NotImplementedException();
+            List<MovieExtensions> result = new(movies);
+
+            for (int i = 0; i < result.Count - 1; i++)
+            {
+                for (int j = i + 1; j < result.Count; j++)
+                {
+                    if (result[i].Rating < result[j].Rating)
+                    {
+                        var temp = result[i];
+                        result[i] = result[j];
+                        result[j] = temp;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public List<MovieExtensions> GetRecentMovies(int years)
+        {
+            List<MovieExtensions> result = new();
+            DateTime limit = DateTime.Now.AddYears(-years);
+
+            foreach (var movie in movies)
+            {
+                if (movie.ReleaseDate >= limit)
+                    result.Add(movie);
+            }
+            return result;
         }
     }
+
+
 }
