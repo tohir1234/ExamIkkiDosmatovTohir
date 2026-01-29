@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 
 namespace ExamIkkiDosmatovTohir.Dtos
 {
-    public  class MovieDto
-    {
-       
-        public string Title { get; set; }
-        public string Director { get; set; }
-        public int DurationMinutes { get; set; }
-        public double Rating { get; set; }
-        public long BoxOfficeEarnings { get; set; }
-        public DateTime ReleaseDte { get; set; }
-    }
+   
+    
+        public class MovieDto
+        {
+            public Guid MovieId { get; set; }
+            public string Title { get; set; }
+            public string Director { get; set; }
+            public int DurationMinutes { get; set; }
+            public double Rating { get; set; }
+            public long BoxOfficeEarnings { get; set; }
+            public DateTime ReleaseDate { get; set; }
+        }
+
+
+    
 }

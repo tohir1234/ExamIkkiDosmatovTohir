@@ -10,11 +10,28 @@ namespace ExamIkkiDosmatovTohir.Extensions;
 
 public static  class MovieExtensions
 {
+    public DateTime ReleaseDate { get; internal set; }
 
-    public static int DurationMinutes(this int minut)
+    public static class MovieExtensions
     {
-        return minut / 60 / 60;
+        // minut → soat
+        public static double ToHours(this MovieDto movie)
+        {
+            return movie.DurationMinutes / 60.0;
+        }
+
+        // listdagi barcha daromad yig‘indisi
+        public static long TotalBoxOffice(this List<MovieDto> movies)
+        {
+            long sum = 0;
+            foreach (var movie in movies)
+            {
+                sum += movie.BoxOfficeEarnings;
+            }
+            return sum;
+        }
     }
+
 
 
 }
